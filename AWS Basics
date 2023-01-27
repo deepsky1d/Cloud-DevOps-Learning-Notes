@@ -1,0 +1,42 @@
+# Day 4 - EC2 Basics
+
+Things to look for when choosing Region: Pricing and Latency, Law/Regulations, Features.
+Some features/services might not be available in other regions.
+More distance means more latency ie time it takes for a data packet to travel from one designated point to another.
+Advisable to choose closest region/AZ specially for web facing application targetted at regional traffic.
+
+Connect EC2 with .pem or ppk files:
+ssh -i "xyz.pem" ec2-user@ec2-xx-xx-xx-xx.us-east-1.compute.amazonaws.com
+
+To fetch instance meta data run this command on instance terminal:
+curl -s http://169.254.169.254/latest/meta-data/
+
+One instance can not used multiple key pairs however one key pair can be used by multiple instances.
+Key-pair's are region specific. One Key-pair created in use-east-1 may not be available in other regions.
+
+To find which shell we are using, we can using any of these commands:
+
+# ps -p $$
+# echo "$SHELL"
+
+Linux architecture: Shell allows the users to communicate with the kernel. It is the interface between kernel and user. The kernel is the main component of a Linux OS and is the core interface between a computer's hardware and its processes such as memory management, process management, device drivers, system calls etc.
+AWS Resource usage and state may affect pricing and billing. Example EIPs are chargeable if NOT being used.
+Instance Public IP may change if we stop/start an instance. 
+Instance states - Stop, Start, Reboot, Hibernate, Terminate
+Hibernate is a saved state of system. Hibernation saves the contents from the instance memory (RAM) to your Amazon Elastic Block Store (Amazon EBS) root volume. 
+EIPs allow us to use permanent/static IPs to our instances.
+EIP is free as long as EIP is associated to instance and being used. Max EIP Limit 5
+By default, all AWS accounts are limited to five (5) Elastic IP addresses per Region.
+EBS by default Delete on termination is YES. That means if we terminate our instance. Our EBS volume will also be deleted.
+To need any help related to account, billing, technical issues, root cause, increase limit etc always create a support ticket and reach out to AWS support.
+AWS created service limits to protect accounts from misuse, DDoS. For example, EC2-VPC Elastic IPs = 5
+To remove/delete any resource in an AWS account, we first need to ensure that particular resource is not being used or associated with other AWS resources. For example, in order to delete EIP, we first need to disassociate it from any attached instance and release it.
+Every instance is checked against two status checks:
+System status checks (Hardware, Networking, Disk - AWS responsibility)
+Instance status checks (EC2 Server configuration OS, Kernel - User responsibility) 
+
+If an instance is having an issue, we can stop/start or relaunch an instance and it will be migrated to healthy hardware if there are any issues with underlying hardware on AWS side.
+
+Always refer to system status checks as they give good indication of any possible issues on AWS infrastructure side or EC2, OS level. We can also check by looking at instance logs. 
+Actions >> Monitor and Troubleshooting >> Get System Log
+
